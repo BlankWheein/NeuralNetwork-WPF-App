@@ -5,9 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:New_WPF_APP"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1200"
-        ResizeMode="NoResize">
-    <Grid x:Name="Container">
+        Title="MainWindow" Height="800" Width="1200">
+    <Grid x:Name="Container" Background="Black">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition/>
@@ -21,24 +20,14 @@
         </Grid.ColumnDefinitions>
 
 
-        <Button Click="Create_Neural_Network" Grid.Column="0" Content="" Grid.Row="0" FontSize="20"></Button>
-        <Button Click="Train_NN" Grid.Column="1" Grid.Row="0" FontSize="20" Content="Train for 1 Epoch"></Button>
-        <Canvas x:Name="myCanvas" Grid.ColumnSpan="3" Grid.Row="1">
-            <Ellipse x:Name="i0" Height="80" Stroke="Black" Width="80" Canvas.Top="100" Canvas.Left="100"/>
-            <Ellipse x:Name="i1" Height="80" Stroke="Black" Width="80" Canvas.Left="100" Canvas.Top="250"/>
-            <Ellipse x:Name="i2" Height="80" Stroke="Black" Width="80" Canvas.Top="400" Canvas.Left="100"/>
-            <Ellipse x:Name="i3" Height="80" Stroke="Black" Width="80" Canvas.Top="550" Canvas.Left="100"/>
+        <Button Click="Create_Neural_Network" x:Name="NNButton" Grid.Column="0" Content="" Grid.Row="0" FontSize="20"></Button>
+        <Button Click="Train_NN" x:Name="trainer" Grid.Column="1" Grid.Row="0" FontSize="20" Content="Train for 1 Epoch"></Button>
+        <Canvas x:Name="InputCanvas" Grid.ColumnSpan="3" Grid.Row="1"/>
+        <Canvas x:Name="HiddenCanvas" Grid.ColumnSpan="3" Grid.Row="1"/>
+        <Canvas x:Name="OutputCanvas" Grid.ColumnSpan="3" Grid.Row="1"/>
+        <Canvas x:Name="LineCanvas" Grid.ColumnSpan="3" Grid.Row="1"/>
 
-            <Ellipse x:Name="h0" Height="80" Stroke="Black" Width="80" Canvas.Top="100" Canvas.Left="500"/>
-            <Ellipse x:Name="h1" Height="80" Stroke="Black" Width="80" Canvas.Left="500" Canvas.Top="250"/>
-            <Ellipse x:Name="h2" Height="80" Stroke="Black" Width="80" Canvas.Top="400" Canvas.Left="500"/>
-            <Ellipse x:Name="h3" Height="80" Stroke="Black" Width="80" Canvas.Top="550" Canvas.Left="500"/>
 
-            <Ellipse x:Name="o0" Height="80" Stroke="Black" Width="80" Canvas.Top="175" Canvas.Left="900"/>
-            <Ellipse x:Name="o1" Height="80" Stroke="Black" Width="80" Canvas.Top="325" Canvas.Left="900"/>
-            <Ellipse x:Name="o2" Height="80" Stroke="Black" Width="80" Canvas.Top="475" Canvas.Left="900"/>
-
-        </Canvas>
 
 
     </Grid>

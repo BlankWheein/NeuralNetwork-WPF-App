@@ -22,6 +22,11 @@ namespace New_WPF_APP.NN
         public string ActivationFunction { get; set; }
         public string DerivativeActivationFunction { get; set; }
 
+        public List<List<double>> FakeInputs { get; set; }
+        public List<List<double>> FakeOutputs { get; set; }
+
+        private Random rand;
+
 
         public NeuralNetwork(int input_nodes, int hidden_nodes, int output_nodes)
         {
@@ -41,6 +46,43 @@ namespace New_WPF_APP.NN
             this.learning_rate = 0.1;
             SetActivationFunction("sigmoid");
             SetDervativeActivationFunction("dsigmoid");
+            rand = new();
+            FakeInputs = new();
+            FakeOutputs = new();
+        }
+        public void InitFakeTrainer(int data_size)
+        {
+            for (int j = 0; j < data_size; j++)
+            {
+                List<double> input_arr = new();
+                for (int i = 0; i < input_nodes; i++)
+                {
+                    input_arr.Add(rand.NextDouble() * 2 - 1);
+                }
+                FakeInputs.Add(input_arr);
+
+                List<double> output_arr = new();
+                for (int i = 0; i < output_nodes; i++)
+                {
+                    output_arr.Add(rand.Next(-1, 1));
+                }
+                FakeOutputs.Add(output_arr);
+            }
+        }
+        public void FakeTrainer(int data_size, int epochs)
+        {
+                
+
+            for (int e = 0; e < epochs; e++)
+            {
+                for (int i = 0; i < data_size; i++)
+                {
+                    Train(FakeInputs[i], FakeOutputs[i]);
+                }
+            }
+            Mutate();
+            
+
         }
         public Func<double, double> Activation(string func)
         {
