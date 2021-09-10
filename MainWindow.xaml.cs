@@ -15,197 +15,139 @@ namespace New_WPF_APP
     /// </summary>
     public partial class MainWindow : Window
     {
-        public NN.NeuralNetwork nn;
+        public NN.DeepNeuralNetwork nn;
         public NN.IrisReader iris;
-        private float StrokeWeight = 0.5f;
+        private float StrokeWeight = 0.75f;
         public MainWindow()
         {
             InitializeComponent();
             iris = new();
-            nn = new(75, 75, 75);
-            UpdateNNButton();
+            nn = new NN.DeepNeuralNetwork(new int[] { 4, 10, 4, 10, 3 });
+            
+
+            //UpdateNNButton();
             Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
             InitNetwork();
+            float[] prediction = nn.Predict(iris.TestSetArray.Item1[0]);
+            float[] CorrectLabel = iris.TestSetArray.Item2[0];
+            UpdateNNButton();
         }
-        public static double CalculateTop(int nodes, int index)
+        public static double CalculateTop(int index, int Nodes)
         {
-            return 50 + (CalculateDimension(nodes) + 5) * (index + 1);
+            return CalculateDimension(Nodes) * index * 2.2 + 25;
         }
-        public static double CalculateLeft(double index)
-        {
-            if (index == 0)
-            {
-                return 0;
-            } else if (index == 1)
-            {
-                return 1200 / 2;
-            } else if (index == 2)
-            {
-                return 1200;
-            }
-            return 5;
-            
+        public static double CalculateLeft(int index, int Nodes)
+        { 
+            return CalculateDimension(Nodes) * index * 2.5;
         }
         public static double CalculateDimension(int nodes)
         {
-            double dim = 400 / nodes;
-            
+            double dim = 1000 / nodes / 2.5;
+
             return Math.Min(100, dim);
         }
         private SolidColorBrush setColor(double value)
         {
-            value *= 50;
+            byte valuePercent;
             byte R = 0;
             byte G = 0;
             byte B = 0;
-            if (value > 0)
+            value *= 100;
+            valuePercent = (byte)(Math.Max(value, -value) / 100 * (255 - 125) + 125);
+            if (value > 4)
             {
-                G = (byte)value;
+                G = valuePercent;
+            } else if (value < -4)
+            {
+                R = valuePercent;
             } else
             {
-                value *= -1;
-                R = (byte)value;
+                B = valuePercent;
             }
-
-            if (R > 255)
-            {
-                R = 255;
-            }
-            if (G > 255)
-            {
-                G = 255;
-            }
-            if (B > 255)
-            {
-                B = 255;
-            }
-            if (Math.Max((double)G, 0) + Math.Max((double)R, 0) < 25)
-            {
-                B = (byte)value;
-            }
-
+            
             var brush = new SolidColorBrush(Color.FromArgb(255, R, G, B));
             return brush;
         }
         private void InitNetwork()
         {
-            for (int i = 0; i < nn.input_nodes; i++)
+            for (int i = 0; i < nn.values.Length; i++)
             {
-                Ellipse l = new();
-                l.Height = CalculateDimension(nn.input_nodes);
-                l.Width = CalculateDimension(nn.input_nodes);
-                l.Stroke = Brushes.White;
-                l.Margin = new Thickness(CalculateLeft(0), CalculateTop(nn.input_nodes, i), 0, 0);
-                InputCanvas.Children.Add(l);
-                Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
-            }
+                for (int j = 0; j < nn.values[i].Length; j++)
+                {
+                    Ellipse l = new();
+                    l.Height = CalculateDimension(nn.values[i].Length);
+                    l.Width = CalculateDimension(nn.values[i].Length);
+                    l.Stroke = Brushes.White;
+                    l.Margin = new Thickness(CalculateLeft(i, nn.values.Length), CalculateTop(j, nn.values[i].Length), 0, 0);
+                    if (i == 0 || i == nn.values.Length-1)
+                    {
+                        //CircleCanvas.Children.Add(l);
 
-            for (int i = 0; i < nn.hidden_nodes; i++)
-            {
-                Ellipse l = new();
-                l.Height = CalculateDimension(nn.hidden_nodes);
-                l.Width = CalculateDimension(nn.hidden_nodes);
-                l.Stroke = Brushes.Black;
-                l.Margin = new Thickness(CalculateLeft(1), CalculateTop(nn.hidden_nodes, i), 0, 0);
-                HiddenCanvas.Children.Add(l);
-                Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
-            }
+                    }
+                    Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
+                }
 
-            for (int i = 0; i < nn.output_nodes; i++)
-            {
-                Ellipse l = new();
-                l.Height = CalculateDimension(nn.output_nodes);
-                l.Width = CalculateDimension(nn.output_nodes);
-                l.Stroke = Brushes.White;
-                l.Margin = new Thickness(CalculateLeft(2), CalculateTop(nn.output_nodes, i), 0, 0);
-                OutputCanvas.Children.Add(l);
-                Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
             }
+            Draw();
+
+
 
         }
-        public void Draw()
+        private void Draw()
         {
             List<Line> lines = new();
-            foreach (Line l in LineCanvas.Children.OfType<Line>())
+            foreach (Line l in CircleCanvas.Children.OfType<Line>())
             {
                 lines.Add(l);
             }
             for (int ii = 0; ii < lines.Count; ii++)
             {
-                LineCanvas.Children.Remove(lines[ii]);
+                CircleCanvas.Children.Remove(lines[ii]);
             }
-
-            int i = 0;
-            int j;
-            foreach (Ellipse inp in InputCanvas.Children.OfType<Ellipse>())
+            for (int i = 0; i < nn.values.Length - 1; i++)
             {
-                j = 0;
-                foreach (Ellipse hid in HiddenCanvas.Children.OfType<Ellipse>())
+                for (int j = 0; j < nn.values[i].Length; j++)
                 {
-                    Line line = new Line();
-                    line.Visibility = Visibility.Visible;
-                    line.StrokeThickness = StrokeWeight;
-                    line.Stroke = setColor(nn.weights_ih.values[j][i]);
-                    line.X1 = (double)CalculateLeft(0) + (CalculateDimension(nn.input_nodes) / 2);
-                    line.Y1 = (double)CalculateTop(nn.input_nodes, i) + (CalculateDimension(nn.input_nodes) / 2);
+                    int weight = 0;
+                    for (int k = 0; k < nn.values[i + 1].Length; k++)
+                    {
+                        Line line = new Line();
+                        line.Visibility = Visibility.Visible;
+                        line.StrokeThickness = StrokeWeight;
+                        float value = nn.NextWeight();
+                        line.Stroke = setColor(value);
+                        line.X1 = (double)CalculateLeft(i, nn.values.Length) + CalculateDimension(nn.values[i].Length) / 2;
+                        line.Y1 = (double)CalculateTop(j, nn.values[i].Length) + CalculateDimension(nn.values[i].Length) / 2;
 
-                    line.X2 = (double)CalculateLeft(1);
-                    line.Y2 = (double)CalculateTop(nn.hidden_nodes, j) + (CalculateDimension(nn.hidden_nodes) / 2);
+                        line.X2 = (double)CalculateLeft(i + 1, nn.values.Length) + CalculateDimension(nn.values[i + 1].Length) / 2;
+                        line.Y2 = (double)CalculateTop(k, nn.values[i + 1].Length) + CalculateDimension(nn.values[i + 1].Length) / 2;
+                        CircleCanvas.Children.Add(line);
+                    }
 
-
-                    LineCanvas.Children.Add(line);
-                    j++;
                 }
-
-                i++;
-            }
-            i = 0;
-            foreach (Ellipse hid in HiddenCanvas.Children.OfType<Ellipse>())
-            {
-                j = 0;
-                foreach (Ellipse output in OutputCanvas.Children.OfType<Ellipse>())
-                {
-                    Line line = new Line();
-                    line.Visibility = Visibility.Visible;
-                    line.StrokeThickness = StrokeWeight;
-                    line.Stroke = setColor(nn.weights_ih.values[i][j]);
-                    line.X1 = (double)CalculateLeft(1) + (CalculateDimension(nn.input_nodes) / 2);
-                    line.Y1 = (double)CalculateTop(nn.hidden_nodes, i) + CalculateDimension(nn.hidden_nodes) / 2;
-
-                    line.X2 = (double)CalculateLeft(2) + (CalculateDimension(nn.output_nodes) / 2);
-                    line.Y2 = (double)CalculateTop(nn.output_nodes, j) + (CalculateDimension(nn.output_nodes) / 2);
-                    LineCanvas.Children.Add(line);
-                    j++;
-                }
-                i++;
             }
         }
+
+
         public void UpdateNNButton()
         {
-            NNButton.Content = String.Format("{0}-{1}-{2} by {3}", nn.input_nodes, nn.hidden_nodes, nn.output_nodes, nn.learning_rate);
+            NNButton.Content = nn.GetInfo();
         }
-        private void Create_Neural_Network(object sender, RoutedEventArgs e)
+
+        private void trainer_Click(object sender, RoutedEventArgs e)
         {
-            Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
-            Draw();
-        }
-        private void Train_1_epoch()
-        {
-            nn.InitFakeTrainer(100);
             for (int i = 0; i < 1000000000; i++)
             {
-                nn.FakeTrainer(100, 1);
-                trainer.Content = String.Format("Training {0}", nn.EpochsTrained);
+                for (int j = 0; j < 100;  j++)
+                {
+                    nn.Train(iris.TrainingSetArray.Item1, iris.TrainingSetArray.Item2);
+                }
+                trainer.Content = String.Format("{0}", nn.ErrorRate);
                 Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
                 Draw();
-                nn.Serialize("NN");
+                UpdateNNButton();
+
             }
         }
-        private void Train_NN(object sender, RoutedEventArgs e)
-        {
-            ((Button)sender).Content = "Training";
-            Train_1_epoch();
-            ((Button)sender).Content = "Done";
-        }
     }
-}
+    }

@@ -29,6 +29,9 @@ namespace New_WPF_APP.NN
         private Random rand;
 
 
+        // double nn
+
+
         public NeuralNetwork(int input_nodes, int hidden_nodes, int output_nodes)
         {
             this.input_nodes = input_nodes;

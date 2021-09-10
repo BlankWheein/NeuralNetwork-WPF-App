@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:New_WPF_APP"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1200">
+        Title="MainWindow" Height="1000" Width="1000">
     <Grid x:Name="Container" Background="Black">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -20,13 +20,10 @@
         </Grid.ColumnDefinitions>
 
 
-        <Button Click="Create_Neural_Network" x:Name="NNButton" Grid.Column="0" Content="" Grid.Row="0" FontSize="20"></Button>
-        <Button Click="Train_NN" x:Name="trainer" Grid.Column="1" Grid.Row="0" FontSize="20" Content="Train for 1 Epoch"></Button>
-        
-        <Canvas x:Name="InputCanvas" Grid.ColumnSpan="3" Grid.Row="1"/>
-        <Canvas x:Name="HiddenCanvas" Grid.ColumnSpan="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Canvas x:Name="OutputCanvas" Grid.ColumnSpan="3" Grid.Row="1"/>
-        <Canvas x:Name="LineCanvas" Grid.ColumnSpan="3" Grid.Row="1"/>
+        <Button x:Name="NNButton" Grid.Column="0" Content="" Grid.Row="0" FontSize="20"></Button>
+        <Button x:Name="trainer" Click="trainer_Click" Grid.Column="1" Grid.Row="0" FontSize="20" Content="Train for 1 Epoch"></Button>
+
+        <Canvas x:Name="CircleCanvas" Grid.ColumnSpan="3" Grid.Row="1"/>
 
 
     </Grid>

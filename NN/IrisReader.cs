@@ -8,6 +8,9 @@ namespace New_WPF_APP.NN
         private const string irisData = "iris/iris.data";
         public List<Iris> TrainingSet;
         public List<Iris> TestSet;
+        public (float[][], float[][]) TrainingSetArray;
+        public (float[][], float[][]) TestSetArray;
+
         public IrisReader()
         {
             List<Iris> iris_training = new();
@@ -30,6 +33,21 @@ namespace New_WPF_APP.NN
             }
             TrainingSet = iris_training;
             TestSet = iris_test;
+
+
+
+            TrainingSetArray = (new float[iris_training.Count][], new float[iris_training.Count][]);
+            TestSetArray = (new float[iris_test.Count][], new float[iris_test.Count][]);
+            for (int i = 0; i < iris_training.Count; i++)
+            {
+                TrainingSetArray.Item1[i] = iris_training[i].PixelsArray;
+                TrainingSetArray.Item2[i] = iris_training[i].LabelArray;
+            }
+            for (int i = 0; i < iris_test.Count; i++)
+            {
+                TestSetArray.Item1[i] = iris_test[i].PixelsArray;
+                TestSetArray.Item2[i] = iris_test[i].LabelArray;
+            }
         }
         public static IEnumerable<Iris> Read()
         {
@@ -47,8 +65,10 @@ namespace New_WPF_APP.NN
                     {
                         LabelString = words[4],
                         LabetInt = ConvertLabelToInt(words[4]),
+                        PixelsArray = new float[] { (float)Convert.ToDouble(words[0]) / 10, (float)Convert.ToDouble(words[1]) / 10, (float)Convert.ToDouble(words[2]) / 10, (float)Convert.ToDouble(words[3]) / 10 },
                         Pixels = new List<double>() { Convert.ToDouble(words[0]) / 10, Convert.ToDouble(words[1]) / 10, Convert.ToDouble(words[2]) / 10, Convert.ToDouble(words[3]) / 10 },
-                        LabelList = ConvertLabelToList(ConvertLabelToInt(words[4]))
+                        LabelList = ConvertLabelToList(ConvertLabelToInt(words[4])),
+                        LabelArray = ConvertLabelToArray(ConvertLabelToInt(words[4])),
                     };
                 }
 
@@ -95,13 +115,21 @@ namespace New_WPF_APP.NN
             label_list[label] = 1;
             return label_list;
         }
+        private static float[] ConvertLabelToArray(int label)
+        {
+            float[] label_list = new float[] { 0, 0, 0 };
+            label_list[label] = 1;
+            return label_list;
+        }
     }
 
     public class Iris
     {
         public string LabelString { get; set; }
         public int LabetInt { get; set; }
+        public float[] PixelsArray {  get; set; }
         public List<double> Pixels { get; set; }
         public List<double> LabelList { get; set; }
+        public float[] LabelArray { get; set; }
     }
 }
