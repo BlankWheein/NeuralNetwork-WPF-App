@@ -123,7 +123,7 @@ namespace New_WPF_APP.NN
 
         public static Matrix Transpose(Matrix m)
         {
-            Matrix result = new Matrix(m.Columns, m.Rows);
+            Matrix result = new(m.Columns, m.Rows);
             for (int i = 0; i < m.Rows; i++)
             {
                 for (int j = 0; j < m.Columns; j++)

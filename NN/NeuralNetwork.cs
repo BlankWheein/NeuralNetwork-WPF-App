@@ -24,6 +24,7 @@ namespace New_WPF_APP.NN
 
         public List<List<double>> FakeInputs { get; set; }
         public List<List<double>> FakeOutputs { get; set; }
+        public int EpochsTrained { get; set; }
 
         private Random rand;
 
@@ -79,6 +80,7 @@ namespace New_WPF_APP.NN
                 {
                     Train(FakeInputs[i], FakeOutputs[i]);
                 }
+                EpochsTrained++;
             }
             Mutate();
             
@@ -163,6 +165,7 @@ namespace New_WPF_APP.NN
                 {
                     Train(data.Pixels, data.LabelList);
                 }
+                EpochsTrained++;
             }
         }
         public void Train(List<double> input_arr, List<double> target_arr)

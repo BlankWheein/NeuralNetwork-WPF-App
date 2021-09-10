@@ -22,33 +22,33 @@ namespace New_WPF_APP
         {
             InitializeComponent();
             iris = new();
-            nn = new(25, 30, 20);
+            nn = new(75, 75, 75);
             UpdateNNButton();
             Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
             InitNetwork();
         }
-        public double CalculateTop(int nodes, int index)
+        public static double CalculateTop(int nodes, int index)
         {
             return 50 + (CalculateDimension(nodes) + 5) * (index + 1);
         }
-        public double CalculateLeft(double index)
+        public static double CalculateLeft(double index)
         {
             if (index == 0)
             {
                 return 0;
             } else if (index == 1)
             {
-                return System.Windows.SystemParameters.PrimaryScreenWidth / 2;
-            } else if (index == 3)
+                return 1200 / 2;
+            } else if (index == 2)
             {
-                return System.Windows.SystemParameters.PrimaryScreenWidth;
+                return 1200;
             }
             return 5;
             
         }
-        public double CalculateDimension(int nodes)
+        public static double CalculateDimension(int nodes)
         {
-            double dim = (400 / nodes);
+            double dim = 400 / nodes;
             
             return Math.Min(100, dim);
         }
@@ -94,7 +94,7 @@ namespace New_WPF_APP
                 Ellipse l = new();
                 l.Height = CalculateDimension(nn.input_nodes);
                 l.Width = CalculateDimension(nn.input_nodes);
-                l.Stroke = Brushes.Black;
+                l.Stroke = Brushes.White;
                 l.Margin = new Thickness(CalculateLeft(0), CalculateTop(nn.input_nodes, i), 0, 0);
                 InputCanvas.Children.Add(l);
                 Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
@@ -116,7 +116,7 @@ namespace New_WPF_APP
                 Ellipse l = new();
                 l.Height = CalculateDimension(nn.output_nodes);
                 l.Width = CalculateDimension(nn.output_nodes);
-                l.Stroke = Brushes.Black;
+                l.Stroke = Brushes.White;
                 l.Margin = new Thickness(CalculateLeft(2), CalculateTop(nn.output_nodes, i), 0, 0);
                 OutputCanvas.Children.Add(l);
                 Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
@@ -143,13 +143,13 @@ namespace New_WPF_APP
                 foreach (Ellipse hid in HiddenCanvas.Children.OfType<Ellipse>())
                 {
                     Line line = new Line();
-                    line.Visibility = System.Windows.Visibility.Visible;
+                    line.Visibility = Visibility.Visible;
                     line.StrokeThickness = StrokeWeight;
                     line.Stroke = setColor(nn.weights_ih.values[j][i]);
                     line.X1 = (double)CalculateLeft(0) + (CalculateDimension(nn.input_nodes) / 2);
                     line.Y1 = (double)CalculateTop(nn.input_nodes, i) + (CalculateDimension(nn.input_nodes) / 2);
 
-                    line.X2 = (double)CalculateLeft(1) + (CalculateDimension(nn.hidden_nodes) / 2);
+                    line.X2 = (double)CalculateLeft(1);
                     line.Y2 = (double)CalculateTop(nn.hidden_nodes, j) + (CalculateDimension(nn.hidden_nodes) / 2);
 
 
@@ -166,20 +166,17 @@ namespace New_WPF_APP
                 foreach (Ellipse output in OutputCanvas.Children.OfType<Ellipse>())
                 {
                     Line line = new Line();
-                    line.Visibility = System.Windows.Visibility.Visible;
+                    line.Visibility = Visibility.Visible;
                     line.StrokeThickness = StrokeWeight;
                     line.Stroke = setColor(nn.weights_ih.values[i][j]);
-                    line.X1 = (double)CalculateLeft(1) + (CalculateDimension(nn.hidden_nodes) / 2);
-                    line.Y1 = (double)CalculateTop(nn.hidden_nodes, i) + (CalculateDimension(nn.hidden_nodes) / 2);
+                    line.X1 = (double)CalculateLeft(1) + (CalculateDimension(nn.input_nodes) / 2);
+                    line.Y1 = (double)CalculateTop(nn.hidden_nodes, i) + CalculateDimension(nn.hidden_nodes) / 2;
 
                     line.X2 = (double)CalculateLeft(2) + (CalculateDimension(nn.output_nodes) / 2);
                     line.Y2 = (double)CalculateTop(nn.output_nodes, j) + (CalculateDimension(nn.output_nodes) / 2);
-
-
                     LineCanvas.Children.Add(line);
                     j++;
                 }
-
                 i++;
             }
         }
@@ -197,12 +194,11 @@ namespace New_WPF_APP
             nn.InitFakeTrainer(100);
             for (int i = 0; i < 1000000000; i++)
             {
-                
-                nn.FakeTrainer(100, 10);
-                trainer.Content = String.Format("Training {0} * 10", i);
+                nn.FakeTrainer(100, 1);
+                trainer.Content = String.Format("Training {0}", nn.EpochsTrained);
                 Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
                 Draw();
-            
+                nn.Serialize("NN");
             }
         }
         private void Train_NN(object sender, RoutedEventArgs e)

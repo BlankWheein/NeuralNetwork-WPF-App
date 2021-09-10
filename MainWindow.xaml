@@ -22,12 +22,11 @@
 
         <Button Click="Create_Neural_Network" x:Name="NNButton" Grid.Column="0" Content="" Grid.Row="0" FontSize="20"></Button>
         <Button Click="Train_NN" x:Name="trainer" Grid.Column="1" Grid.Row="0" FontSize="20" Content="Train for 1 Epoch"></Button>
+        
         <Canvas x:Name="InputCanvas" Grid.ColumnSpan="3" Grid.Row="1"/>
-        <Canvas x:Name="HiddenCanvas" Grid.ColumnSpan="3" Grid.Row="1"/>
+        <Canvas x:Name="HiddenCanvas" Grid.ColumnSpan="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Canvas x:Name="OutputCanvas" Grid.ColumnSpan="3" Grid.Row="1"/>
         <Canvas x:Name="LineCanvas" Grid.ColumnSpan="3" Grid.Row="1"/>
-
-
 
 
     </Grid>
