@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace New_WPF_APP.NN
@@ -10,9 +12,10 @@ namespace New_WPF_APP.NN
     public class DeepNeuralNetwork
     {
         Random rnd = new Random();
-        public float[][] values { get; private set; }
-        public float[][] biases { get; private set; }
-        public float[][][] weights { get; private set; }
+        public List<int> structure {  get; set; }
+        public float[][] values { get; set; }
+        public float[][] biases { get; set; }
+        public float[][][] weights { get; set; }
 
         private float[][] desiredValues { get; set; }
         private float[][] biasesSmudge { get; set; }
@@ -25,7 +28,7 @@ namespace New_WPF_APP.NN
 
         private int _correct = 0;
         private int _total = 0;
-        public int ErrorRate {  get; private set; }
+        public int ErrorRate;
 
         private int _i, _j, _k;
 
@@ -39,7 +42,6 @@ namespace New_WPF_APP.NN
         }
         private float DActivationFunction(float x)
         {
-
             Func<float, float> func = GetActivationFunction(DActivation);
             return func(x);
         }
@@ -54,9 +56,9 @@ namespace New_WPF_APP.NN
             }
             return Sigmoid;
         }
-        
-        public DeepNeuralNetwork(IReadOnlyList<int> structure)
+        private void Constructor(List<int> structure)
         {
+            this.structure = structure;
             Activation = ActivationFunctions.Sigmoid;
             DActivation = ActivationFunctions.DSigmoid;
             WeightDecay = 0.001f;
@@ -64,7 +66,7 @@ namespace New_WPF_APP.NN
             _j = 0;
             _k = 0;
             EpochsTrained = 0;
-            LearningRate = 0.1f;
+            LearningRate = 0.5f;
             values = new float[structure.Count][];
             desiredValues = new float[structure.Count][];
             biases = new float[structure.Count][];
@@ -79,7 +81,6 @@ namespace New_WPF_APP.NN
                 biases[i] = new float[structure[i]];
                 biasesSmudge[i] = new float[structure[i]];
             }
-
             for (var i = 0; i < structure.Count - 1; i++)
             {
                 weights[i] = new float[values[i + 1].Length][];
@@ -93,7 +94,15 @@ namespace New_WPF_APP.NN
                 }
             }
         }
-
+        public DeepNeuralNetwork(List<int> structure)
+        {
+            this.structure = structure;
+            Constructor(structure);
+        }
+        public void ReConstruct(List<int> newStructure)
+        {
+            Constructor(newStructure);
+        }
         public float NextWeight()
         {
             float value = weights[_i][_j][_k];
@@ -128,7 +137,6 @@ namespace New_WPF_APP.NN
             info += $"{LearningRate}";
             return info;
         }
-
         public float[] Predict(float[] input)
         {
             for (var i = 0; i < values[0].Length; i++) values[0][i] = input[i];
@@ -139,8 +147,6 @@ namespace New_WPF_APP.NN
                     values[i][j] = ActivationFunction(Sum(values[i - 1], weights[i - 1][j]) + biases[i][j]);
                     desiredValues[i][j] = values[i][j];
                 }
-
-
             return values[values.Length - 1];
         }
         private static float Sum(IEnumerable<float> values, IReadOnlyList<float> weights) =>
@@ -210,20 +216,17 @@ namespace New_WPF_APP.NN
                     biases[i][j] += biasesSmudge[i][j] * LearningRate;
                     biases[i][j] *= 1 - WeightDecay;
                     biasesSmudge[i][j] = 0;
-
                     for (var k = 0; k < values[i - 1].Length; k++)
                     {
                         weights[i - 1][j][k] += weightsSmudge[i - 1][j][k] * LearningRate;
                         weights[i - 1][j][k] *= 1 - WeightDecay;
                         weightsSmudge[i - 1][j][k] = 0;
                     }
-
                     desiredValues[i][j] = 0;
                 }
             }
             EpochsTrained++;
             CalculateError();
-
         }
 
         private void CalculateError()
@@ -233,7 +236,7 @@ namespace New_WPF_APP.NN
             {
                 if (ErrorRate > 95)
                 {
-                    LearningRate = 1f / ErrorRate/10;
+                    LearningRate = 1f / ErrorRate/2;
                     WeightDecay = 0;
                 } else
                 {
@@ -242,6 +245,22 @@ namespace New_WPF_APP.NN
                 
             }
             
+        }
+        public void Serialize(string name)
+        {
+            var neural = this;
+            string fileName = name + ".json";
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string jsonString = JsonSerializer.Serialize(neural, options);
+            File.WriteAllText(fileName, jsonString);
+        }
+        public static DeepNeuralNetwork DeSerialize(string name)
+        {
+            string filename = name + ".json";
+            string text = System.IO.File.ReadAllText(filename);
+            System.Console.WriteLine("Contents of WriteText.txt = {0}", text);
+            DeepNeuralNetwork nn = JsonSerializer.Deserialize<DeepNeuralNetwork>(text);
+            return nn;
         }
     }
 

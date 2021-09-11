@@ -22,8 +22,8 @@ namespace New_WPF_APP
         {
             InitializeComponent();
             iris = new();
-            nn = new NN.DeepNeuralNetwork(new int[] { 4, 10, 4, 10, 3 });
-            
+            //nn = new NN.DeepNeuralNetwork(new List<int>() { 4, 5, 5, 3 });
+            nn = NN.DeepNeuralNetwork.DeSerialize("NN");
 
             //UpdateNNButton();
             Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
@@ -138,10 +138,11 @@ namespace New_WPF_APP
         {
             for (int i = 0; i < 1000000000; i++)
             {
-                for (int j = 0; j < 100;  j++)
+                for (int j = 0; j < 1000;  j++)
                 {
                     nn.Train(iris.TrainingSetArray.Item1, iris.TrainingSetArray.Item2);
                 }
+                nn.Serialize("NN");
                 trainer.Content = String.Format("{0}", nn.ErrorRate);
                 Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
                 Draw();
