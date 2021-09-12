@@ -18,12 +18,13 @@ namespace New_WPF_APP
         public NN.DeepNeuralNetwork nn;
         public NN.IrisReader iris;
         private float StrokeWeight = 0.75f;
+        public int EpochsPerIteration = 10;
         public MainWindow()
         {
             InitializeComponent();
             iris = new();
-            //nn = new NN.DeepNeuralNetwork(new List<int>() { 4, 5, 5, 3 });
-            nn = NN.DeepNeuralNetwork.DeSerialize("NN");
+            nn = new NN.DeepNeuralNetwork(new List<int>() { 4, 250,250, 3 });
+            //nn = NN.DeepNeuralNetwork.DeSerialize("NN");
 
             //UpdateNNButton();
             Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
@@ -38,7 +39,7 @@ namespace New_WPF_APP
         }
         public static double CalculateLeft(int index, int Nodes)
         { 
-            return CalculateDimension(Nodes) * index * 2.5;
+            return CalculateDimension(Nodes) * index * 2.4;
         }
         public static double CalculateDimension(int nodes)
         {
@@ -49,15 +50,15 @@ namespace New_WPF_APP
         private SolidColorBrush setColor(double value)
         {
             byte valuePercent;
-            byte R = 0;
-            byte G = 0;
-            byte B = 0;
-            value *= 100;
-            valuePercent = (byte)(Math.Max(value, -value) / 100 * (255 - 125) + 125);
-            if (value > 4)
+            byte R = 10;
+            byte G = 10;
+            byte B = 30;
+            value *= 150;
+            valuePercent = (byte)(Math.Max(value, -value) / 100 * (255 - 10) + 10);
+            if (value > 1)
             {
                 G = valuePercent;
-            } else if (value < -4)
+            } else if (value < -1)
             {
                 R = valuePercent;
             } else
@@ -138,12 +139,12 @@ namespace New_WPF_APP
         {
             for (int i = 0; i < 1000000000; i++)
             {
-                for (int j = 0; j < 1000;  j++)
+                for (int j = 0; j < EpochsPerIteration;  j++)
                 {
                     nn.Train(iris.TrainingSetArray.Item1, iris.TrainingSetArray.Item2);
                 }
                 nn.Serialize("NN");
-                trainer.Content = String.Format("{0}", nn.ErrorRate);
+                trainer.Content = String.Format("{1}-{0}", nn.ErrorRate, nn.EpochsTrained);
                 Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
                 Draw();
                 UpdateNNButton();

@@ -66,7 +66,7 @@ namespace New_WPF_APP.NN
             _j = 0;
             _k = 0;
             EpochsTrained = 0;
-            LearningRate = 0.5f;
+            LearningRate = 0.1f;
             values = new float[structure.Count][];
             desiredValues = new float[structure.Count][];
             biases = new float[structure.Count][];
