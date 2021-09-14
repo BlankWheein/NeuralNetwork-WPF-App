@@ -23,7 +23,9 @@ namespace New_WPF_APP.NN
         public int EpochsTrained {  get; set; }
 
         private float WeightDecay { get; set; }
-        private float LearningRate { get; set; }
+        public float LearningRate { get; set; }
+
+        public int BatchSize {  get; set; }
 
 
         private int _correct = 0;
@@ -62,9 +64,11 @@ namespace New_WPF_APP.NN
             Activation = ActivationFunctions.Sigmoid;
             DActivation = ActivationFunctions.DSigmoid;
             WeightDecay = 0.001f;
+
             _i = 0;
             _j = 0;
             _k = 0;
+            BatchSize = 16;
             EpochsTrained = 0;
             LearningRate = 0.1f;
             values = new float[structure.Count][];
@@ -159,6 +163,27 @@ namespace New_WPF_APP.NN
             if (x > 2.5f) { return 1f; }
             return 0.2f * x + 0.5f;
         }
+        private void ApplyWeights()
+        {
+            for (var i = values.Length - 1; i >= 1; i--)
+            {
+                for (var j = 0; j < values[i].Length; j++)
+                {
+                    biases[i][j] += biasesSmudge[i][j] * LearningRate;
+                    biases[i][j] *= 1 - WeightDecay;
+                    biasesSmudge[i][j] = 0;
+                    for (var k = 0; k < values[i - 1].Length; k++)
+                    {
+                        weights[i - 1][j][k] += weightsSmudge[i - 1][j][k] * LearningRate;
+                        weights[i - 1][j][k] *= 1 - WeightDecay;
+                        weightsSmudge[i - 1][j][k] = 0;
+                    }
+                    desiredValues[i][j] = 0;
+                }
+            }
+            EpochsTrained++;
+
+        }
         public void Train(float[][] trainingInputs, float[][] trainingOutputs)
         {
             if (_total > 1000)
@@ -166,8 +191,14 @@ namespace New_WPF_APP.NN
                 _total = 0;
                 _correct = 0;
             }
-            for (var i = 0; i < trainingInputs.Length; i++)
+            int index = 0;
+            for (int i = 0; index < trainingInputs.Length; i++, index++)
             {
+                if (i == BatchSize)
+                {
+                    i = 0;
+                    ApplyWeights();
+                }
                 _total++;
                 int randInt = rnd.Next(0, trainingInputs.Length);
                 Predict(trainingInputs[randInt]);
@@ -208,43 +239,17 @@ namespace New_WPF_APP.NN
                     }
                 }
             }
-
-            for (var i = values.Length - 1; i >= 1; i--)
+            if (trainingInputs.Length % BatchSize == 0)
             {
-                for (var j = 0; j < values[i].Length; j++)
-                {
-                    biases[i][j] += biasesSmudge[i][j] * LearningRate;
-                    biases[i][j] *= 1 - WeightDecay;
-                    biasesSmudge[i][j] = 0;
-                    for (var k = 0; k < values[i - 1].Length; k++)
-                    {
-                        weights[i - 1][j][k] += weightsSmudge[i - 1][j][k] * LearningRate;
-                        weights[i - 1][j][k] *= 1 - WeightDecay;
-                        weightsSmudge[i - 1][j][k] = 0;
-                    }
-                    desiredValues[i][j] = 0;
-                }
+                ApplyWeights();
             }
-            EpochsTrained++;
             CalculateError();
+
         }
 
         private void CalculateError()
         {
-            ErrorRate = (int)(((float)_correct / (float)_total) * 100);
-            if (ErrorRate > 90)
-            {
-                if (ErrorRate > 95)
-                {
-                    LearningRate = 1f / ErrorRate/2;
-                    WeightDecay = 0;
-                } else
-                {
-                    LearningRate = 1f / ErrorRate;
-                }
-                
-            }
-            
+            ErrorRate = _total - _correct;
         }
         public void Serialize(string name)
         {
@@ -263,5 +268,4 @@ namespace New_WPF_APP.NN
             return nn;
         }
     }
-
 }

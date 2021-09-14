@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LiveCharts;
+using LiveCharts.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -13,17 +15,56 @@ namespace New_WPF_APP
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : UserControl
     {
         public NN.DeepNeuralNetwork nn;
         public NN.IrisReader iris;
         private float StrokeWeight = 0.75f;
-        public int EpochsPerIteration = 10;
+        public int EpochsPerIteration = 100;
+        public int EpochPerGraphUpdater = 1000;
+        public SeriesCollection SeriesCollection { get; set; }
+        public List<string> Labels { get; set; }
+        public Func<double, string> YFormatter { get; set; }
+
+        public void initGraph()
+        {
+            SeriesCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Errors",
+                    Values = new ChartValues<double> { },
+                    PointGeometry = DefaultGeometries.Square,
+                    PointGeometrySize = 5
+                },
+                new LineSeries
+                {
+                    Title = "Learning Rate",
+                    Values = new ChartValues<double> {  },
+                    PointGeometry = DefaultGeometries.Circle,
+                    PointGeometrySize = 5
+                }
+            };
+
+            Labels = new List<string>() { $"{nn.EpochsTrained}" };
+            YFormatter = value => value.ToString("C");
+
+            DataContext = this;
+        }
+
+        public void UpdateGraph()
+        {
+            SeriesCollection[0].Values.Add((double)nn.ErrorRate);
+            SeriesCollection[1].Values.Add((double)nn.LearningRate * 100);
+            Labels.Add($"{nn.EpochsTrained}");
+            DataContext = this;
+        }
+
         public MainWindow()
         {
             InitializeComponent();
             iris = new();
-            nn = new NN.DeepNeuralNetwork(new List<int>() { 4, 250,250, 3 });
+            nn = new NN.DeepNeuralNetwork(new List<int>() { 4, 10, 10, 3 });
             //nn = NN.DeepNeuralNetwork.DeSerialize("NN");
 
             //UpdateNNButton();
@@ -32,6 +73,7 @@ namespace New_WPF_APP
             float[] prediction = nn.Predict(iris.TestSetArray.Item1[0]);
             float[] CorrectLabel = iris.TestSetArray.Item2[0];
             UpdateNNButton();
+            initGraph();
         }
         public static double CalculateTop(int index, int Nodes)
         {
@@ -137,11 +179,18 @@ namespace New_WPF_APP
 
         private void trainer_Click(object sender, RoutedEventArgs e)
         {
+            int k = 0;
             for (int i = 0; i < 1000000000; i++)
             {
                 for (int j = 0; j < EpochsPerIteration;  j++)
                 {
+                    k++;
                     nn.Train(iris.TrainingSetArray.Item1, iris.TrainingSetArray.Item2);
+                    if (k == EpochPerGraphUpdater)
+                    {
+                        UpdateGraph();
+                        k = 0;
+                    }
                 }
                 nn.Serialize("NN");
                 trainer.Content = String.Format("{1}-{0}", nn.ErrorRate, nn.EpochsTrained);
@@ -151,5 +200,6 @@ namespace New_WPF_APP
 
             }
         }
+        
     }
     }

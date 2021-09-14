@@ -20,3 +20,26 @@ C:\Users\Blank\source\repos\New WPF APP\obj\Debug\net5.0-windows\New WPF APP.dll
 C:\Users\Blank\source\repos\New WPF APP\obj\Debug\net5.0-windows\ref\New WPF APP.dll
 C:\Users\Blank\source\repos\New WPF APP\obj\Debug\net5.0-windows\New WPF APP.pdb
 C:\Users\Blank\source\repos\New WPF APP\obj\Debug\net5.0-windows\New WPF APP.genruntimeconfig.cache
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\bin\Debug\net5.0-windows\New WPF APP.exe
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\bin\Debug\net5.0-windows\New WPF APP.deps.json
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\bin\Debug\net5.0-windows\New WPF APP.runtimeconfig.json
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\bin\Debug\net5.0-windows\New WPF APP.runtimeconfig.dev.json
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\bin\Debug\net5.0-windows\New WPF APP.dll
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\bin\Debug\net5.0-windows\ref\New WPF APP.dll
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\bin\Debug\net5.0-windows\New WPF APP.pdb
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\obj\Debug\net5.0-windows\New WPF APP.csproj.AssemblyReference.cache
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\obj\Debug\net5.0-windows\MainWindow.g.cs
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\obj\Debug\net5.0-windows\App.g.cs
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\obj\Debug\net5.0-windows\New WPF APP_MarkupCompile.cache
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\obj\Debug\net5.0-windows\MainWindow.baml
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\obj\Debug\net5.0-windows\New WPF APP.g.resources
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\obj\Debug\net5.0-windows\New WPF APP.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\obj\Debug\net5.0-windows\New WPF APP.AssemblyInfoInputs.cache
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\obj\Debug\net5.0-windows\New WPF APP.AssemblyInfo.cs
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\obj\Debug\net5.0-windows\New WPF APP.csproj.CoreCompileInputs.cache
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\obj\Debug\net5.0-windows\New WPF APP.dll
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\obj\Debug\net5.0-windows\ref\New WPF APP.dll
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\obj\Debug\net5.0-windows\New WPF APP.pdb
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\obj\Debug\net5.0-windows\New WPF APP.genruntimeconfig.cache
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\bin\Debug\net5.0-windows\LiveCharts.dll
+C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\bin\Debug\net5.0-windows\LiveCharts.Wpf.dll
