@@ -1,2 +1,5 @@
 /.vs
 /bin/Debug/net5.0-windows
+/bin
+/obj
+obj/Debug/net5.0-windows/New WPF APP.dll

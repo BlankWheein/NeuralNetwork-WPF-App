@@ -72,7 +72,7 @@ namespace New_WPF_APP
         {
             InitializeComponent();
             iris = new();
-            nn = new NN.DeepNeuralNetwork(new List<int>() { 4, 12, 3 });
+            nn = new NN.DeepNeuralNetwork(new List<int>() { 4, 13, 3 });
             //nn = NN.DeepNeuralNetwork.DeSerialize("NN");
 
             //UpdateNNButton();
