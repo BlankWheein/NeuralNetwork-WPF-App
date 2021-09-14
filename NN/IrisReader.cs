@@ -5,7 +5,7 @@ namespace New_WPF_APP.NN
 {
     public class IrisReader
     {
-        private const string irisData = "iris/iris.data";
+        private const string irisData = "../../../iris/iris.data";
         public List<Iris> TrainingSet;
         public List<Iris> TestSet;
         public (float[][], float[][]) TrainingSetArray;
