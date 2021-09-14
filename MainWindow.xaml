@@ -36,6 +36,8 @@
                 </lvc:CartesianChart.AxisX>
             </lvc:CartesianChart>
         </Grid>
+        <TextBox x:Name="LR" Grid.Column="2" TextAlignment="Center" FontSize="24" TextWrapping="Wrap" Text="0.1" />
+        <Button Click="SetLR" Grid.Column="3" Content="Set LR" FontSize="24" />
 
     </Grid>
 </UserControl>

@@ -20,7 +20,7 @@ namespace New_WPF_APP
         public NN.DeepNeuralNetwork nn;
         public NN.IrisReader iris;
         private float StrokeWeight = 0.75f;
-        public int EpochsPerIteration = 100;
+        public int EpochsPerIteration = 10;
         public int EpochPerGraphUpdater = 1000;
         public SeriesCollection SeriesCollection { get; set; }
         public List<string> Labels { get; set; }
@@ -32,7 +32,7 @@ namespace New_WPF_APP
             {
                 new LineSeries
                 {
-                    Title = "Errors",
+                    Title = "Loss",
                     Values = new ChartValues<double> { },
                     PointGeometry = DefaultGeometries.Square,
                     PointGeometrySize = 5
@@ -54,8 +54,16 @@ namespace New_WPF_APP
 
         public void UpdateGraph()
         {
-            SeriesCollection[0].Values.Add((double)nn.ErrorRate);
-            SeriesCollection[1].Values.Add((double)nn.LearningRate * 100);
+            SeriesCollection[0].Values.Add((double)nn.Loss);
+            SeriesCollection[1].Values.Add((double)nn.LearningRate);
+            if (SeriesCollection[0].Values.Count > 25)
+            {
+                for (int i = 0; i < SeriesCollection.Count; i++)
+                {
+                    SeriesCollection[i].Values.RemoveAt(0);
+                }
+                Labels.RemoveAt(0);
+            }
             Labels.Add($"{nn.EpochsTrained}");
             DataContext = this;
         }
@@ -64,7 +72,7 @@ namespace New_WPF_APP
         {
             InitializeComponent();
             iris = new();
-            nn = new NN.DeepNeuralNetwork(new List<int>() { 4, 10, 10, 3 });
+            nn = new NN.DeepNeuralNetwork(new List<int>() { 4, 10,10, 10, 3 });
             //nn = NN.DeepNeuralNetwork.DeSerialize("NN");
 
             //UpdateNNButton();
@@ -200,6 +208,10 @@ namespace New_WPF_APP
 
             }
         }
-        
+
+        private void SetLR(object sender, RoutedEventArgs e)
+        {
+            nn.LearningRate = (float)Convert.ToDouble(LR.Text);
+        }
     }
     }

@@ -9,7 +9,6 @@ C:\Users\Blank\source\repos\New WPF APP\obj\Debug\net5.0-windows\New WPF APP.csp
 C:\Users\Blank\source\repos\New WPF APP\obj\Debug\net5.0-windows\MainWindow.g.cs
 C:\Users\Blank\source\repos\New WPF APP\obj\Debug\net5.0-windows\App.g.cs
 C:\Users\Blank\source\repos\New WPF APP\obj\Debug\net5.0-windows\New WPF APP_MarkupCompile.cache
-C:\Users\Blank\source\repos\New WPF APP\obj\Debug\net5.0-windows\New WPF APP_MarkupCompile.lref
 C:\Users\Blank\source\repos\New WPF APP\obj\Debug\net5.0-windows\MainWindow.baml
 C:\Users\Blank\source\repos\New WPF APP\obj\Debug\net5.0-windows\New WPF APP.g.resources
 C:\Users\Blank\source\repos\New WPF APP\obj\Debug\net5.0-windows\New WPF APP.GeneratedMSBuildEditorConfig.editorconfig
@@ -43,3 +42,5 @@ C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\obj\Debug\net5.0-windows\Ne
 C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\obj\Debug\net5.0-windows\New WPF APP.genruntimeconfig.cache
 C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\bin\Debug\net5.0-windows\LiveCharts.dll
 C:\Users\noobs\OneDrive\Documents\GitHub\New-WPF-APP\bin\Debug\net5.0-windows\LiveCharts.Wpf.dll
+C:\Users\Blank\source\repos\New WPF APP\bin\Debug\net5.0-windows\LiveCharts.dll
+C:\Users\Blank\source\repos\New WPF APP\bin\Debug\net5.0-windows\LiveCharts.Wpf.dll

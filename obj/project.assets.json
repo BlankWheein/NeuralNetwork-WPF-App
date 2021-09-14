@@ -73,19 +73,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\noobs\\.nuget\\packages\\": {}
+    "C:\\Users\\Blank\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\noobs\\OneDrive\\Documents\\GitHub\\New-WPF-APP\\New WPF APP.csproj",
+      "projectUniqueName": "C:\\Users\\Blank\\source\\repos\\New WPF APP\\New WPF APP.csproj",
       "projectName": "New WPF APP",
-      "projectPath": "C:\\Users\\noobs\\OneDrive\\Documents\\GitHub\\New-WPF-APP\\New WPF APP.csproj",
-      "packagesPath": "C:\\Users\\noobs\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\noobs\\OneDrive\\Documents\\GitHub\\New-WPF-APP\\obj\\",
+      "projectPath": "C:\\Users\\Blank\\source\\repos\\New WPF APP\\New WPF APP.csproj",
+      "packagesPath": "C:\\Users\\Blank\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Blank\\source\\repos\\New WPF APP\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\noobs\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Blank\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -149,7 +149,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "프로젝트 대상 프레임워크 'net5.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8'을(를) 사용하여 패키지 'LiveCharts 0.9.7'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.",
+      "message": "Package 'LiveCharts 0.9.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net5.0-windows7.0'. This package may not be fully compatible with your project.",
       "libraryId": "LiveCharts",
       "targetGraphs": [
         "net5.0-windows7.0"
@@ -159,7 +159,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "프로젝트 대상 프레임워크 'net5.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8'을(를) 사용하여 패키지 'LiveCharts.Wpf 0.9.7'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.",
+      "message": "Package 'LiveCharts.Wpf 0.9.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net5.0-windows7.0'. This package may not be fully compatible with your project.",
       "libraryId": "LiveCharts.Wpf",
       "targetGraphs": [
         "net5.0-windows7.0"
