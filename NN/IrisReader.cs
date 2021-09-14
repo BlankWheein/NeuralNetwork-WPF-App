@@ -127,7 +127,7 @@ namespace New_WPF_APP.NN
     {
         public string LabelString { get; set; }
         public int LabetInt { get; set; }
-        public float[] PixelsArray {  get; set; }
+        public float[] PixelsArray { get; set; }
         public List<double> Pixels { get; set; }
         public List<double> LabelList { get; set; }
         public float[] LabelArray { get; set; }

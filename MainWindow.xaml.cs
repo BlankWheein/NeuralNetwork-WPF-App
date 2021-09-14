@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
@@ -19,9 +18,10 @@ namespace New_WPF_APP
     {
         public NN.DeepNeuralNetwork nn;
         public NN.IrisReader iris;
+        public NN.MnistReader mnist;
         private float StrokeWeight = 1f;
-        public int EpochsPerIteration = 100;
-        public int EpochPerGraphUpdater = 2500;
+        public int EpochsPerIteration = 1;
+        public int EpochPerGraphUpdater = 1;
         public SeriesCollection SeriesCollection { get; set; }
         public List<string> Labels { get; set; }
         public Func<double, string> YFormatter { get; set; }
@@ -54,7 +54,7 @@ namespace New_WPF_APP
             };
 
             Labels = new List<string>() { $"{nn.EpochsTrained}" };
-            YFormatter = value => value.ToString("C");
+            YFormatter = val => $"{val}";
 
             DataContext = this;
         }
@@ -64,7 +64,7 @@ namespace New_WPF_APP
             SeriesCollection[0].Values.Add((double)nn.Loss);
             SeriesCollection[1].Values.Add((double)nn.LearningRate);
             SeriesCollection[2].Values.Add((double)nn.Accuracy);
-            if (SeriesCollection[0].Values.Count > 10)
+            if (SeriesCollection[0].Values.Count > 25)
             {
                 for (int i = 0; i < SeriesCollection.Count; i++)
                 {
@@ -80,14 +80,13 @@ namespace New_WPF_APP
         {
             InitializeComponent();
             iris = new();
-            nn = new NN.DeepNeuralNetwork(new List<int>() { 4, 25, 25, 25, 3 });
+            mnist = new();
+            nn = new NN.DeepNeuralNetwork(new List<int>() { 784, 24, 10 });
             //nn = NN.DeepNeuralNetwork.DeSerialize("NN");
 
             //UpdateNNButton();
             Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
             InitNetwork();
-            float[] prediction = nn.Predict(iris.TestSetArray.Item1[0]);
-            float[] CorrectLabel = iris.TestSetArray.Item2[0];
             UpdateNNButton();
             initGraph();
         }
@@ -96,7 +95,7 @@ namespace New_WPF_APP
             return CalculateDimension(Nodes) * index * 2.2 + 25;
         }
         public static double CalculateLeft(int index, int Nodes)
-        { 
+        {
             return CalculateDimension(Nodes) * index * 2.4;
         }
         public static double CalculateDimension(int nodes)
@@ -116,14 +115,16 @@ namespace New_WPF_APP
             if (value > 1)
             {
                 G = valuePercent;
-            } else if (value < -1)
+            }
+            else if (value < -1)
             {
                 R = valuePercent;
-            } else
+            }
+            else
             {
                 B = valuePercent;
             }
-            
+
             var brush = new SolidColorBrush(Color.FromArgb(255, R, G, B));
             return brush;
         }
@@ -138,7 +139,7 @@ namespace New_WPF_APP
                     l.Width = CalculateDimension(nn.values[i].Length);
                     l.Stroke = Brushes.White;
                     l.Margin = new Thickness(CalculateLeft(i, nn.values.Length), CalculateTop(j, nn.values[i].Length), 0, 0);
-                    if (i == 0 || i == nn.values.Length-1)
+                    if (i == 0 || i == nn.values.Length - 1)
                     {
                         //CircleCanvas.Children.Add(l);
 
@@ -199,10 +200,10 @@ namespace New_WPF_APP
             UpdateGraph();
             for (int i = 0; i < 1000000000; i++)
             {
-                for (int j = 0; j < EpochsPerIteration;  j++)
+                for (int j = 0; j < EpochsPerIteration; j++)
                 {
                     k++;
-                    nn.Train(iris.TrainingSetArray.Item1, iris.TrainingSetArray.Item2);
+                    nn.Train(mnist.TrainingSetArray.Item1, mnist.TrainingSetArray.Item2);
                     if (k == EpochPerGraphUpdater)
                     {
                         UpdateGraph();
@@ -214,7 +215,7 @@ namespace New_WPF_APP
                 Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
                 Draw();
                 UpdateNNButton();
-                nn.CalculateAccuracy(iris.TrainingSetArray.Item1, iris.TrainingSetArray.Item2);
+                nn.CalculateAccuracy(mnist.TrainingSetArray.Item1, mnist.TrainingSetArray.Item2);
 
             }
         }
@@ -224,4 +225,4 @@ namespace New_WPF_APP
             nn.LearningRate = (float)Convert.ToDouble(LR.Text);
         }
     }
-    }
+}

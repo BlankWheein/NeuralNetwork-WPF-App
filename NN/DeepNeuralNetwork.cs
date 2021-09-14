@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace New_WPF_APP.NN
 {
@@ -12,7 +12,7 @@ namespace New_WPF_APP.NN
     public class DeepNeuralNetwork
     {
         Random rnd = new Random();
-        public List<int> structure {  get; set; }
+        public List<int> structure { get; set; }
         public float[][] values { get; set; }
         public float[][] biases { get; set; }
         public float[][][] weights { get; set; }
@@ -20,14 +20,14 @@ namespace New_WPF_APP.NN
         private float[][] desiredValues { get; set; }
         private float[][] biasesSmudge { get; set; }
         private float[][][] weightsSmudge { get; set; }
-        public int EpochsTrained {  get; set; }
+        public int EpochsTrained { get; set; }
 
         private float WeightDecay { get; set; }
         public float LearningRate { get; set; }
 
-        public int BatchSize {  get; set; }
-        public double Loss {  get; set; }
-        public double Accuracy {  get; set; }
+        public int BatchSize { get; set; }
+        public double Loss { get; set; }
+        public double Accuracy { get; set; }
 
 
         private int _correct = 0;
@@ -36,7 +36,7 @@ namespace New_WPF_APP.NN
 
         private int _i, _j, _k;
 
-        public ActivationFunctions Activation {  get; set; }
+        public ActivationFunctions Activation { get; set; }
         public ActivationFunctions DActivation { get; set; }
 
         private float ActivationFunction(float x)
@@ -88,7 +88,7 @@ namespace New_WPF_APP.NN
                 biases[i] = new float[structure[i]];
                 biasesSmudge[i] = new float[structure[i]];
             }
-            for (var i = 0; i < structure.Count - 1; i++)
+            Parallel.For(0, structure.Count - 1, i =>
             {
                 weights[i] = new float[values[i + 1].Length][];
                 weightsSmudge[i] = new float[values[i + 1].Length][];
@@ -99,7 +99,7 @@ namespace New_WPF_APP.NN
                     for (var k = 0; k < weights[i][j].Length; k++)
                         weights[i][j][k] = (float)rnd.NextDouble() * MathF.Sqrt(2f / weights[i][j].Length);
                 }
-            }
+            });
         }
         public DeepNeuralNetwork(List<int> structure)
         {
@@ -114,7 +114,7 @@ namespace New_WPF_APP.NN
         {
             float value = weights[_i][_j][_k];
             _k++;
-            if (_k==weights[_i][_j].Length)
+            if (_k == weights[_i][_j].Length)
             {
                 _j++;
                 _k = 0;
@@ -158,7 +158,7 @@ namespace New_WPF_APP.NN
         }
         private static float Sum(IEnumerable<float> values, IReadOnlyList<float> weights) =>
         values.Select((v, i) => v * weights[i]).Sum();
-        private static float Sigmoid (float x) => 1f / (1f + (float) Math.Exp(-x));
+        private static float Sigmoid(float x) => 1f / (1f + (float)Math.Exp(-x));
         private static float DSigmoid(float x) => x * (1 - x);
         private static float HardSigmoid(float x)
         {
@@ -169,14 +169,14 @@ namespace New_WPF_APP.NN
 
         private void TrainBatchSize(float[][] trainingInputs, float[][] trainingOutputs)
         {
-            for (int i = 0; i < trainingInputs.Length; i++)
+            Parallel.For(0, trainingInputs.Length, i =>
             {
                 _total++;
                 int index = rnd.Next(0, trainingInputs.Length);
-                if (trainingInputs[index] == null) { continue; }
-                for (int _i =  0; _i < trainingOutputs[index].Length; _i++)
+                if (trainingInputs[index] == null) { return; }
+                for (int _i = 0; _i < trainingOutputs[index].Length; _i++)
                 {
-                    if (trainingOutputs[index][_i] == null) { goto Next;  }
+                    if (trainingOutputs[index][_i] == null) { goto Next; }
                 }
                 Predict(trainingInputs[index]);
                 float highestValue = 0;
@@ -226,7 +226,9 @@ namespace New_WPF_APP.NN
             Next:
                 Console.WriteLine("");
 
-            }
+            });
+
+
             for (var i = values.Length - 1; i >= 1; i--)
             {
                 for (var j = 0; j < values[i].Length; j++)
@@ -268,7 +270,7 @@ namespace New_WPF_APP.NN
                 }
                 total++;
             }
-            Accuracy = (float) correct / total;
+            Accuracy = (float)correct / total;
         }
 
         public void Train(float[][] trainingInputs, float[][] trainingOutputs)
@@ -293,7 +295,7 @@ namespace New_WPF_APP.NN
             {
                 WeightDecay = 0f;
             }
-            
+
             EpochsTrained++;
             CalculateError();
 

@@ -75,7 +75,7 @@ namespace New_WPF_APP.NN
         }
         public void FakeTrainer(int data_size, int epochs)
         {
-                
+
 
             for (int e = 0; e < epochs; e++)
             {
@@ -86,7 +86,7 @@ namespace New_WPF_APP.NN
                 EpochsTrained++;
             }
             Mutate();
-            
+
 
         }
         public Func<double, double> Activation(string func)

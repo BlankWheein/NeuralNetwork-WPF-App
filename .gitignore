@@ -2,4 +2,10 @@
 /bin/Debug/net5.0-windows
 /bin
 /obj
+*.dll
+*.pdb
 obj/Debug/net5.0-windows/New WPF APP.dll
+obj/Debug/net5.0-windows/New WPF APP.dll
+obj/Debug/net5.0-windows/New WPF APP.pdb
+*.cache
+obj/Debug/net5.0-windows/ref/New WPF APP.dll
