@@ -1,12 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "5J3a8C7sb88I65tjNBX/GI2pli938pzWryL1diQFV/FvF8lYy0gEgPk85VGVXwHqbF2tGq6CCYIIxbzN2W++dQ==",
+  "dgSpecHash": "5+uKigxetU8CMiFyXUHm6G/VinoH2FThrf1PR3esTCb4P36I8R3C/nVROu86maLwZeWmwYc62ed6/AJBqt+Lzg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Blank\\source\\repos\\New WPF APP\\New WPF APP.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Blank\\.nuget\\packages\\livecharts\\0.9.7\\livecharts.0.9.7.nupkg.sha512",
-    "C:\\Users\\Blank\\.nuget\\packages\\livecharts.wpf\\0.9.7\\livecharts.wpf.0.9.7.nupkg.sha512",
-    "C:\\Users\\Blank\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.8\\microsoft.netcore.app.host.win-x64.5.0.8.nupkg.sha512"
+    "C:\\Users\\Blank\\.nuget\\packages\\livecharts.wpf\\0.9.7\\livecharts.wpf.0.9.7.nupkg.sha512"
   ],
   "logs": [
     {

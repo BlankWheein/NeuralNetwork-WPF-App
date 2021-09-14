@@ -19,9 +19,9 @@ namespace New_WPF_APP
     {
         public NN.DeepNeuralNetwork nn;
         public NN.IrisReader iris;
-        private float StrokeWeight = 0.75f;
+        private float StrokeWeight = 1f;
         public int EpochsPerIteration = 100;
-        public int EpochPerGraphUpdater = 100;
+        public int EpochPerGraphUpdater = 2500;
         public SeriesCollection SeriesCollection { get; set; }
         public List<string> Labels { get; set; }
         public Func<double, string> YFormatter { get; set; }
@@ -43,6 +43,13 @@ namespace New_WPF_APP
                     Values = new ChartValues<double> {  },
                     PointGeometry = DefaultGeometries.Circle,
                     PointGeometrySize = 5
+                },
+                new LineSeries
+                {
+                    Title = "Accuracy",
+                    Values = new ChartValues<double> {  },
+                    PointGeometry = DefaultGeometries.Triangle,
+                    PointGeometrySize = 5
                 }
             };
 
@@ -56,6 +63,7 @@ namespace New_WPF_APP
         {
             SeriesCollection[0].Values.Add((double)nn.Loss);
             SeriesCollection[1].Values.Add((double)nn.LearningRate);
+            SeriesCollection[2].Values.Add((double)nn.Accuracy);
             if (SeriesCollection[0].Values.Count > 10)
             {
                 for (int i = 0; i < SeriesCollection.Count; i++)
@@ -72,7 +80,7 @@ namespace New_WPF_APP
         {
             InitializeComponent();
             iris = new();
-            nn = new NN.DeepNeuralNetwork(new List<int>() { 4, 13, 3 });
+            nn = new NN.DeepNeuralNetwork(new List<int>() { 4, 25, 25, 25, 3 });
             //nn = NN.DeepNeuralNetwork.DeSerialize("NN");
 
             //UpdateNNButton();
@@ -188,6 +196,7 @@ namespace New_WPF_APP
         private void trainer_Click(object sender, RoutedEventArgs e)
         {
             int k = 0;
+            UpdateGraph();
             for (int i = 0; i < 1000000000; i++)
             {
                 for (int j = 0; j < EpochsPerIteration;  j++)
@@ -205,6 +214,7 @@ namespace New_WPF_APP
                 Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
                 Draw();
                 UpdateNNButton();
+                nn.CalculateAccuracy(iris.TrainingSetArray.Item1, iris.TrainingSetArray.Item2);
 
             }
         }

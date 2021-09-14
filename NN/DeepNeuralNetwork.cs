@@ -27,6 +27,7 @@ namespace New_WPF_APP.NN
 
         public int BatchSize {  get; set; }
         public double Loss {  get; set; }
+        public double Accuracy {  get; set; }
 
 
         private int _correct = 0;
@@ -65,13 +66,14 @@ namespace New_WPF_APP.NN
             Activation = ActivationFunctions.Sigmoid;
             DActivation = ActivationFunctions.DSigmoid;
             WeightDecay = 0.0001f;
-
+            Loss = 1d;
+            Accuracy = 0d;
             _i = 0;
             _j = 0;
             _k = 0;
-            BatchSize = 16;
+            BatchSize = 4;
             EpochsTrained = 0;
-            LearningRate = 0.08f;
+            LearningRate = 0.1f;
             values = new float[structure.Count][];
             desiredValues = new float[structure.Count][];
             biases = new float[structure.Count][];
@@ -164,21 +166,11 @@ namespace New_WPF_APP.NN
             if (x > 2.5f) { return 1f; }
             return 0.2f * x + 0.5f;
         }
-        private void ApplyWeights()
-        {
-            
-
-        }
 
         private void TrainBatchSize(float[][] trainingInputs, float[][] trainingOutputs)
         {
             for (int i = 0; i < trainingInputs.Length; i++)
             {
-                
-                if (i % BatchSize == 0)
-                {
-                    //ApplyWeights();
-                }
                 _total++;
                 int index = rnd.Next(0, trainingInputs.Length);
                 if (trainingInputs[index] == null) { continue; }
@@ -251,8 +243,32 @@ namespace New_WPF_APP.NN
                     desiredValues[i][j] = 0;
                 }
             }
-            ApplyWeights();
+        }
 
+        public void CalculateAccuracy(float[][] testInputs, float[][] testOutputs)
+        {
+            int total = 0;
+            int correct = 0;
+            for (int i = 0; i < testInputs.Length; i++)
+            {
+                Predict(testInputs[i]);
+                float highestValue = 0;
+                int highestIndex = 0;
+                for (int g = 0; g < values[values.Length - 1].Length; g++)
+                {
+                    if (values[values.Length - 1][g] > highestValue)
+                    {
+                        highestIndex = g;
+                        highestValue = values[values.Length - 1][g];
+                    }
+                }
+                if (testOutputs[i][highestIndex] == 1)
+                {
+                    correct++;
+                }
+                total++;
+            }
+            Accuracy = (float) correct / total;
         }
 
         public void Train(float[][] trainingInputs, float[][] trainingOutputs)
