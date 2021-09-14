@@ -64,12 +64,12 @@ namespace New_WPF_APP.NN
             this.structure = structure;
             Activation = ActivationFunctions.Sigmoid;
             DActivation = ActivationFunctions.DSigmoid;
-            WeightDecay = 0f;
+            WeightDecay = 0.0001f;
 
             _i = 0;
             _j = 0;
             _k = 0;
-            BatchSize = 32;
+            BatchSize = 16;
             EpochsTrained = 0;
             LearningRate = 0.08f;
             values = new float[structure.Count][];
@@ -169,17 +169,23 @@ namespace New_WPF_APP.NN
             
 
         }
-        public void Train(float[][] trainingInputs, float[][] trainingOutputs)
+
+        private void TrainBatchSize(float[][] trainingInputs, float[][] trainingOutputs)
         {
-            Loss = 0d;
             for (int i = 0; i < trainingInputs.Length; i++)
             {
+                
                 if (i % BatchSize == 0)
                 {
                     //ApplyWeights();
                 }
                 _total++;
                 int index = rnd.Next(0, trainingInputs.Length);
+                if (trainingInputs[index] == null) { continue; }
+                for (int _i =  0; _i < trainingOutputs[index].Length; _i++)
+                {
+                    if (trainingOutputs[index][_i] == null) { goto Next;  }
+                }
                 Predict(trainingInputs[index]);
                 float highestValue = 0;
                 int highestIndex = 0;
@@ -191,7 +197,7 @@ namespace New_WPF_APP.NN
                         highestValue = values[values.Length - 1][g];
                     }
                 }
-                
+
                 if (trainingOutputs[index][highestIndex] == 1)
                 {
                     _correct++;
@@ -218,13 +224,16 @@ namespace New_WPF_APP.NN
                         }
                     }
                 }
-                for (int ii = 0; ii < trainingOutputs[i].Length; ii++)
+                for (int ii = 0; ii < trainingOutputs[index].Length; ii++)
                 {
                     if (trainingOutputs[index][ii] == 1)
                     {
                         Loss += -Math.Log(values[values.Length - 1][ii]);
                     }
                 }
+            Next:
+                Console.WriteLine("");
+
             }
             for (var i = values.Length - 1; i >= 1; i--)
             {
@@ -242,9 +251,33 @@ namespace New_WPF_APP.NN
                     desiredValues[i][j] = 0;
                 }
             }
-
-            Loss = Loss / trainingInputs.Length;
             ApplyWeights();
+
+        }
+
+        public void Train(float[][] trainingInputs, float[][] trainingOutputs)
+        {
+            Loss = 0d;
+            int i = 0;
+            int index = 0;
+            float[][] newTraningInputs = new float[BatchSize][];
+            float[][] newTrainingOutputs = new float[BatchSize][];
+            for (; i < trainingInputs.Length; i++)
+            {
+                newTraningInputs[index] = trainingInputs[i];
+                newTrainingOutputs[index] = trainingOutputs[i];
+                if (i % BatchSize == 0)
+                {
+                    index = 0;
+                    TrainBatchSize(newTraningInputs, newTrainingOutputs);
+                }
+            }
+            Loss /= trainingInputs.Length;
+            if (Loss < 1d)
+            {
+                WeightDecay = 0f;
+            }
+            
             EpochsTrained++;
             CalculateError();
 

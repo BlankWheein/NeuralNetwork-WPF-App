@@ -20,8 +20,8 @@ namespace New_WPF_APP
         public NN.DeepNeuralNetwork nn;
         public NN.IrisReader iris;
         private float StrokeWeight = 0.75f;
-        public int EpochsPerIteration = 10;
-        public int EpochPerGraphUpdater = 1000;
+        public int EpochsPerIteration = 100;
+        public int EpochPerGraphUpdater = 100;
         public SeriesCollection SeriesCollection { get; set; }
         public List<string> Labels { get; set; }
         public Func<double, string> YFormatter { get; set; }
@@ -56,7 +56,7 @@ namespace New_WPF_APP
         {
             SeriesCollection[0].Values.Add((double)nn.Loss);
             SeriesCollection[1].Values.Add((double)nn.LearningRate);
-            if (SeriesCollection[0].Values.Count > 25)
+            if (SeriesCollection[0].Values.Count > 10)
             {
                 for (int i = 0; i < SeriesCollection.Count; i++)
                 {
@@ -72,7 +72,7 @@ namespace New_WPF_APP
         {
             InitializeComponent();
             iris = new();
-            nn = new NN.DeepNeuralNetwork(new List<int>() { 4, 10,10, 10, 3 });
+            nn = new NN.DeepNeuralNetwork(new List<int>() { 4, 12, 3 });
             //nn = NN.DeepNeuralNetwork.DeSerialize("NN");
 
             //UpdateNNButton();
