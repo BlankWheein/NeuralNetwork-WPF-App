@@ -1,13 +1,24 @@
 {
   "version": 2,
-  "dgSpecHash": "5+uKigxetU8CMiFyXUHm6G/VinoH2FThrf1PR3esTCb4P36I8R3C/nVROu86maLwZeWmwYc62ed6/AJBqt+Lzg==",
+  "dgSpecHash": "imdzwAtk86Xi/2mbylfz4NO7Sw/6BZIdgFD3qXSqRYT98ngDPb70fIuxs8TrH7i0eBH+KU5kQNeKfNmk6OoEzg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Blank\\source\\repos\\New WPF APP\\New WPF APP.csproj",
+  "projectFilePath": "C:\\Users\\noobs\\OneDrive\\Documents\\GitHub\\New-WPF-APP\\New WPF APP.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Blank\\.nuget\\packages\\livecharts\\0.9.7\\livecharts.0.9.7.nupkg.sha512",
-    "C:\\Users\\Blank\\.nuget\\packages\\livecharts.wpf\\0.9.7\\livecharts.wpf.0.9.7.nupkg.sha512"
+    "C:\\Users\\noobs\\.nuget\\packages\\cudafy.net\\1.29.5576.13786\\cudafy.net.1.29.5576.13786.nupkg.sha512",
+    "C:\\Users\\noobs\\.nuget\\packages\\livecharts\\0.9.7\\livecharts.0.9.7.nupkg.sha512",
+    "C:\\Users\\noobs\\.nuget\\packages\\livecharts.wpf\\0.9.7\\livecharts.wpf.0.9.7.nupkg.sha512"
   ],
   "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'CUDAfy.NET 1.29.5576.13786' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net5.0-windows7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "CUDAfy.NET",
+      "targetGraphs": [
+        "net5.0-windows7.0"
+      ]
+    },
     {
       "code": "NU1701",
       "level": "Warning",

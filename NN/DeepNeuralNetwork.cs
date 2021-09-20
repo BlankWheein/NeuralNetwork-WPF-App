@@ -88,7 +88,7 @@ namespace New_WPF_APP.NN
                 biases[i] = new float[structure[i]];
                 biasesSmudge[i] = new float[structure[i]];
             }
-            Parallel.For(0, structure.Count - 1, i =>
+            for (int i = 0; i < structure.Count -1; i++)
             {
                 weights[i] = new float[values[i + 1].Length][];
                 weightsSmudge[i] = new float[values[i + 1].Length][];
@@ -99,7 +99,7 @@ namespace New_WPF_APP.NN
                     for (var k = 0; k < weights[i][j].Length; k++)
                         weights[i][j][k] = (float)rnd.NextDouble() * MathF.Sqrt(2f / weights[i][j].Length);
                 }
-            });
+            };
         }
         public DeepNeuralNetwork(List<int> structure)
         {
@@ -169,7 +169,7 @@ namespace New_WPF_APP.NN
 
         private void TrainBatchSize(float[][] trainingInputs, float[][] trainingOutputs)
         {
-            Parallel.For(0, trainingInputs.Length, i =>
+            for (int i = 0; i < trainingInputs.Length; i++)
             {
                 _total++;
                 int index = rnd.Next(0, trainingInputs.Length);
@@ -226,7 +226,7 @@ namespace New_WPF_APP.NN
             Next:
                 Console.WriteLine("");
 
-            });
+            };
 
 
             for (var i = values.Length - 1; i >= 1; i--)

@@ -8,12 +8,20 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.IO;
+using System.Text;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using Cudafy;
+using Cudafy.Host;
+using Cudafy.Translator;
 
 namespace New_WPF_APP
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
     public partial class MainWindow : UserControl
     {
         public NN.DeepNeuralNetwork nn;
@@ -75,9 +83,24 @@ namespace New_WPF_APP
             Labels.Add($"{nn.EpochsTrained}");
             DataContext = this;
         }
+        public static void Execute()
+        {
 
+            CudafyModule km = CudafyModule.TryDeserialize(typeof(MainWindow).Name);
+            if (km == null || !km.TryVerifyChecksums())
+            {
+                km = CudafyTranslator.Cudafy(typeof(MainWindow));
+                km.Serialize();
+            }
+            GPGPU _gpu = CudafyHost.GetDevice(eGPUType.Cuda);
+            _gpu.LoadModule(km);
+            _gpu.Launch().kernel();
+
+
+        }
         public MainWindow()
         {
+            MainWindow.Execute();
             InitializeComponent();
             iris = new();
             mnist = new();
@@ -89,6 +112,11 @@ namespace New_WPF_APP
             InitNetwork();
             UpdateNNButton();
             initGraph();
+        }
+        [Cudafy]
+        public static void thekernel()
+        {
+
         }
         public static double CalculateTop(int index, int Nodes)
         {
