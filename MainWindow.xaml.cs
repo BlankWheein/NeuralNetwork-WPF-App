@@ -85,7 +85,7 @@ namespace New_WPF_APP
         }
         public static void Execute()
         {
-
+            return;
             CudafyModule km = CudafyModule.TryDeserialize(typeof(MainWindow).Name);
             if (km == null || !km.TryVerifyChecksums())
             {

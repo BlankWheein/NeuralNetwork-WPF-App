@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\noobs\\OneDrive\\Documents\\GitHub\\New-WPF-APP\\New WPF APP.csproj": {}
+    "C:\\Users\\mads6\\Documents\\GitHub\\New-WPF-APP\\New WPF APP.csproj": {}
   },
   "projects": {
-    "C:\\Users\\noobs\\OneDrive\\Documents\\GitHub\\New-WPF-APP\\New WPF APP.csproj": {
+    "C:\\Users\\mads6\\Documents\\GitHub\\New-WPF-APP\\New WPF APP.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\noobs\\OneDrive\\Documents\\GitHub\\New-WPF-APP\\New WPF APP.csproj",
+        "projectUniqueName": "C:\\Users\\mads6\\Documents\\GitHub\\New-WPF-APP\\New WPF APP.csproj",
         "projectName": "New WPF APP",
-        "projectPath": "C:\\Users\\noobs\\OneDrive\\Documents\\GitHub\\New-WPF-APP\\New WPF APP.csproj",
-        "packagesPath": "C:\\Users\\noobs\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\noobs\\OneDrive\\Documents\\GitHub\\New-WPF-APP\\obj\\",
+        "projectPath": "C:\\Users\\mads6\\Documents\\GitHub\\New-WPF-APP\\New WPF APP.csproj",
+        "packagesPath": "C:\\Users\\mads6\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\mads6\\Documents\\GitHub\\New-WPF-APP\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\noobs\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mads6\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "imdzwAtk86Xi/2mbylfz4NO7Sw/6BZIdgFD3qXSqRYT98ngDPb70fIuxs8TrH7i0eBH+KU5kQNeKfNmk6OoEzg==",
+  "dgSpecHash": "ihfsbvFw2F6hr6rpPbwTfTThCee3FShpqoOBHB9tUao8yrXbN9pivVe40vdn8wLHwutaTGorrZjqARiT6dK2EA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\noobs\\OneDrive\\Documents\\GitHub\\New-WPF-APP\\New WPF APP.csproj",
+  "projectFilePath": "C:\\Users\\mads6\\Documents\\GitHub\\New-WPF-APP\\New WPF APP.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\noobs\\.nuget\\packages\\cudafy.net\\1.29.5576.13786\\cudafy.net.1.29.5576.13786.nupkg.sha512",
-    "C:\\Users\\noobs\\.nuget\\packages\\livecharts\\0.9.7\\livecharts.0.9.7.nupkg.sha512",
-    "C:\\Users\\noobs\\.nuget\\packages\\livecharts.wpf\\0.9.7\\livecharts.wpf.0.9.7.nupkg.sha512"
+    "C:\\Users\\mads6\\.nuget\\packages\\cudafy.net\\1.29.5576.13786\\cudafy.net.1.29.5576.13786.nupkg.sha512",
+    "C:\\Users\\mads6\\.nuget\\packages\\livecharts\\0.9.7\\livecharts.0.9.7.nupkg.sha512",
+    "C:\\Users\\mads6\\.nuget\\packages\\livecharts.wpf\\0.9.7\\livecharts.wpf.0.9.7.nupkg.sha512"
   ],
   "logs": [
     {
